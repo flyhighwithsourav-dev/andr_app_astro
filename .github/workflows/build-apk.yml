@@ -19,22 +19,19 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Grant Execute Permission for Gradle Wrapper
-      run: chmod +x ./gradlew
-      working-directory: test_app
-
+    # BYPASS GRADLEW: Using global gradle and forcing it to look inside test_app
     - name: Build Debug APK
       run: |
         export JAVA_HOME=$JAVA_HOME_17_X64
         export PATH=$JAVA_HOME_17_X64/bin:$PATH
-        ./gradlew assembleDebug
+        gradle assembleDebug
       working-directory: test_app
 
     - name: Build Release APK
       run: |
         export JAVA_HOME=$JAVA_HOME_17_X64
         export PATH=$JAVA_HOME_17_X64/bin:$PATH
-        ./gradlew assembleRelease
+        gradle assembleRelease
       working-directory: test_app
 
     - name: Upload Debug APK
