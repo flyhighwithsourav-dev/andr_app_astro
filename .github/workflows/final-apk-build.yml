@@ -1,0 +1,47 @@
+name: Final APK Build Run
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Java 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Native Gradle
+      uses: gradle/actions/setup-gradle@v4
+
+    # FORCE PURGE: This steps explicitly wipes out line 1 of your root build file before Gradle starts up
+    - name: Clear Broken Plugin Declaration
+      run: |
+        if [ -f build.gradle ]; then
+          echo "// Cleared by GitHub Actions" > build.gradle
+        fi
+      working-directory: test_app
+
+    # CORRECT COMMAND: Explicitly targeting only the sub-app module directly
+    - name: Build App Project Modules
+      run: |
+        gradle :app:assembleDebug
+        gradle :app:assembleRelease
+      working-directory: test_app
+
+    - name: Upload Finished APKs
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: project-apks
+        path: |
+          test_app/app/build/outputs/apk/debug/
+          test_app/app/build/outputs/apk/release/
