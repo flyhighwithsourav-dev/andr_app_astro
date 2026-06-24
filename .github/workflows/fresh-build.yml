@@ -22,17 +22,51 @@ jobs:
     - name: Setup Native Gradle
       uses: gradle/actions/setup-gradle@v4
 
-    # DIAGNOSTIC STEP: Prints every file and folder in your repository
-    - name: List Repository Structure
+    # FIX: Creates a root-level override mapping to supply the missing Android Tools dependency
+    - name: Inject Android Build Tools Core Dependencies
       run: |
-        echo "=== Current Directory ==="
-        pwd
-        echo "=== Root Folder Contents ==="
-        ls -la
-        echo "=== test_app Folder Contents ==="
-        ls -la test_app || echo "test_app folder not found"
-      working-directory: ${{ github.workspace }}
-
-    - name: Compile Debug APK
-      run: gradle assembleDebug
+        cat << 'EOF' > init.gradle
+        allprojects {
+            buildscript {
+                repositories {
+                    google()
+                    mavenCentral()
+                }
+                dependencies {
+                    classpath 'com.android.tools.build:gradle:8.2.2'
+                }
+            }
+            repositories {
+                google()
+                mavenCentral()
+            }
+        }
+        EOF
       working-directory: test_app
+
+    # Binds our newly injected dependencies directly into the compiler run
+    - name: Compile Debug APK
+      run: gradle assembleDebug --init-script init.gradle
+      working-directory: test_app
+
+    - name: Compile Release APK
+      run: gradle assembleRelease --init-script init.gradle
+      working-directory: test_app
+
+    - name: Upload Debug APK
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: debug-apk
+        path: |
+          test_app/app/build/outputs/apk/debug/
+          test_app/build/outputs/apk/debug/
+
+    - name: Upload Release APK
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: release-apk
+        path: |
+          test_app/app/build/outputs/apk/release/
+          test_app/build/outputs/apk/release/
