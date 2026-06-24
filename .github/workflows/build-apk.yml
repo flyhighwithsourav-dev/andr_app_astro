@@ -19,25 +19,16 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    # FIX: This physically repairs the broken Windows line endings inside your gradlew file
-    - name: Repair Broken Script Line Endings
-      run: |
-        sed -i 's/\r$//' ./gradlew
-        chmod +x ./gradlew
-      working-directory: test_app
+    # BYPASS GRADLEW: Installs a fresh, native Linux version of Gradle to build your project
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
 
     - name: Build Debug APK
-      run: |
-        export JAVA_HOME=$JAVA_HOME_17_X64
-        export PATH=$JAVA_HOME_17_X64/bin:$PATH
-        ./gradlew assembleDebug
+      run: gradle assembleDebug
       working-directory: test_app
 
     - name: Build Release APK
-      run: |
-        export JAVA_HOME=$JAVA_HOME_17_X64
-        export PATH=$JAVA_HOME_17_X64/bin:$PATH
-        ./gradlew assembleRelease
+      run: gradle assembleRelease
       working-directory: test_app
 
     - name: Upload Debug APK
