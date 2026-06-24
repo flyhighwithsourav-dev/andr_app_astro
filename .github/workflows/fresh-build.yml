@@ -22,7 +22,16 @@ jobs:
     - name: Setup Native Gradle
       uses: gradle/actions/setup-gradle@v4
 
-    # FIX: Injects the modern plugin management block so the root project can identify com.android.application
+    # FIX: Purges the invalid plugin declaration directly from line 1 of your root build file
+    - name: Strip Invalid Root Plugins
+      run: |
+        if [ -f build.gradle ]; then
+          sed -i '/com.android.application/d' build.gradle
+          sed -i '/plugins {/d' build.gradle
+        fi
+      working-directory: test_app
+
+    # FIX: Injects a clean plugin configuration block directly into your settings engine
     - name: Inject Global Plugin Repositories
       run: |
         cat << 'EOF' > settings.gradle.new
@@ -46,8 +55,6 @@ jobs:
             }
         }
         EOF
-        
-        # If you already have a settings.gradle file, append its contents to our new structural definition
         if [ -f settings.gradle ]; then
             cat settings.gradle >> settings.gradle.new
         fi
