@@ -19,19 +19,25 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    # BYPASS GRADLEW: Using global gradle and forcing it to look inside test_app
+    # FIX: This physically repairs the broken Windows line endings inside your gradlew file
+    - name: Repair Broken Script Line Endings
+      run: |
+        sed -i 's/\r$//' ./gradlew
+        chmod +x ./gradlew
+      working-directory: test_app
+
     - name: Build Debug APK
       run: |
         export JAVA_HOME=$JAVA_HOME_17_X64
         export PATH=$JAVA_HOME_17_X64/bin:$PATH
-        gradle assembleDebug
+        ./gradlew assembleDebug
       working-directory: test_app
 
     - name: Build Release APK
       run: |
         export JAVA_HOME=$JAVA_HOME_17_X64
         export PATH=$JAVA_HOME_17_X64/bin:$PATH
-        gradle assembleRelease
+        ./gradlew assembleRelease
       working-directory: test_app
 
     - name: Upload Debug APK
