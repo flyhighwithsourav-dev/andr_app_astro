@@ -22,16 +22,16 @@ jobs:
     - name: Setup Native Gradle
       uses: gradle/actions/setup-gradle@v4
 
-    # FIX: Purges the invalid plugin declaration directly from line 1 of your root build file
+    # FIX 1: Deletes line 1 containing 'com.android.application' from the root build file
     - name: Strip Invalid Root Plugins
       run: |
         if [ -f build.gradle ]; then
           sed -i '/com.android.application/d' build.gradle
-          sed -i '/plugins {/d' build.gradle
+          sed -i '/plugins/d' build.gradle
         fi
       working-directory: test_app
 
-    # FIX: Injects a clean plugin configuration block directly into your settings engine
+    # FIX 2: Manually injects the correct Android plugin configurations into the settings layer
     - name: Inject Global Plugin Repositories
       run: |
         cat << 'EOF' > settings.gradle.new
@@ -61,6 +61,7 @@ jobs:
         mv settings.gradle.new settings.gradle
       working-directory: test_app
 
+    # FIX 3: TARGETED MODULE COMPILATION (Compiles the inner app folder directly)
     - name: Compile Debug APK
       run: gradle :app:assembleDebug
       working-directory: test_app
