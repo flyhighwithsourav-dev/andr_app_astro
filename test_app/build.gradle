@@ -4,7 +4,7 @@ android {
     compileSdkVersion 33
     buildToolsVersion '33.0.0'
     defaultConfig {
-        applicationId 'com.example.astro_predictor'
+        applicationId 'com.astro_predictor'
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 1
