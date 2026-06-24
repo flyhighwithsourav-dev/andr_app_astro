@@ -23,9 +23,6 @@ jobs:
       run: chmod +x ./gradlew
       working-directory: test_app
 
-    # FORCE INJECTION: Overriding PATH and JAVA_HOME directly in the execution context
-    # This prevents your sub-framework from falling back to JVM 11
-     King-Build-Debug:
     - name: Build Debug APK
       run: |
         export JAVA_HOME=$JAVA_HOME_17_X64
