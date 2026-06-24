@@ -1,4 +1,4 @@
-"apply plugin: 'com.android.application'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 33
@@ -12,8 +12,8 @@ android {
     }
     buildTypes {
         release {
-            minifyWith 'proguard-android-optimize.txt'
-            proguardFiles 'proguard-android.txt'
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -21,74 +21,6 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-    implementation 'org.tensorflow:tensorflow-lite:0.0.0-alpha2'
+    // TensorFlow Lite for ML
+    implementation 'org.tensorflow:tensorflow-lite:2.11.0'
 }
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-    implementation 'org.tensorflow:tensorflow-lite:0.0.0-alpha2'
-}
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-    implementation 'org.tensorflow:tensorflow-lite:0.0.0-alpha2'
-}
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-    implementation 'org.tensorflow:tensorflow-lite:0.0.0-alpha2'
-}
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-    implementation 'org.tensorflow:tensorflow-lite:0.0.0-alpha2'  // Add this if you're using ML
-}
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-}
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add ML dependencies here
-
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Add any ML dependencies here (e.g., TensorFlow Lite)
-}"
